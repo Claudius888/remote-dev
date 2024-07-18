@@ -1,4 +1,9 @@
+
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* RESET */
 *,
@@ -484,14 +489,14 @@ body::-webkit-scrollbar {
   margin-top: 20px;
 }
 
-.search > button {
+.search > span {
   cursor: pointer;
   position: absolute;
   top: 17px;
   left: 25px;
 }
 
-.search > button > i {
+.search > span > i {
   transition: all 0.2s;
   color: rgba(0, 0, 0, 0.73);
 }
