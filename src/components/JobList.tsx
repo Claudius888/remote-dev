@@ -1,5 +1,15 @@
+import { useJobStore } from '../store/store';
+import JobListItem from './JobListItem';
+
 export function JobList() {
-  return <ul className="job-list"></ul>;
+  const { jobItems } = useJobStore();
+  return (
+    <ul className='job-list'>
+      {jobItems.map((jobItem) => (
+        <JobListItem jobItem={jobItem}/>
+      ))}
+    </ul>
+  );
 }
 
 export default JobList;

@@ -1,9 +1,10 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { SearchIcon } from './SearchIcon';
 import { cn } from '../utils/utils';
+import { useSearchText } from '../store/store';
 
-export default function SearchForm({searchText, setSearchText}) {
-  
+export default function SearchForm() {
+  const { searchText, setSearchText } = useSearchText()
   return (
     <form
       action='#'
@@ -30,7 +31,7 @@ export default function SearchForm({searchText, setSearchText}) {
         <input
           value={searchText}
           onChange={(e) => {
-            setsearchText(e.target.value);
+            setSearchText(e.target.value);
           }}
           spellCheck='false'
           type='text'
