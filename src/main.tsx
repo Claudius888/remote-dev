@@ -1,10 +1,27 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./components/App.tsx";
-import "./index.css";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './components/App.tsx';
+import './index.css';
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError: (error, query) => {
+      if (query?.meta.errorMessage) {
+        console.error(query.meta.errorMessage);
+      }
+    },
+  }),
+});
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
   </React.StrictMode>
 );

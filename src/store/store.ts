@@ -1,21 +1,41 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
+import { JobItem } from '../lib/types';
+import { devtools } from 'zustand/middleware'
 
 interface JobsList {
-  jobItems: []
-  updateJobs: (newJobs: []) => void
+  jobItems: JobItem[];
+  activeId: string | null;
+  currentJobsCount: number | null;
+  updateJobs: (newJobs: JobItem[]) => void;
+  currentJobHash: (hash: string) => void;
+  setCurrentJobsFound: (count: number) => void;
 }
 
 interface SearchText {
-    searchText: string
-    setSearchText: (searchQuery: string) => void
-  }
+  searchText: string;
+  debouncedSearchValue: string;
+  setSearchText: (searchQuery: string) => void;
+  setDebouncedValue: (searchQuery: string) => void;
+}
 
 export const useJobStore = create<JobsList>()((set) => ({
   jobItems: [],
-  updateJobs: (by) => set(() => ({ jobItems: by})),
-}))
+  activeId: null,
+  currentJobsCount: null,
+  updateJobs: (by) => set(() => ({ jobItems: by })),
+  currentJobHash: (hash) => set(() => ({ activeId: hash })),
+  setCurrentJobsFound: (count) => set(() => ({currentJobsCount: count})) 
+}));
 
-export const useSearchText = create<SearchText>()((set) => ({
-    searchText: '',
-    setSearchText: (by) => set(() => ({ searchText: by})),
-  }))
+export const useSearchText = create<SearchText>()(devtools((set) => ({
+  searchText: '',
+  debouncedSearchValue: '',
+  setSearchText: (by) =>
+    set(() => ({
+      searchText: by,
+    })),
+  setDebouncedValue: (by) =>
+    set(() => ({
+      debouncedSearchValue: by,
+    })),
+})));

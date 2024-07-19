@@ -1,22 +1,19 @@
+import { JobItem } from "../lib/types";
+import { useJobStore } from "../store/store";
+import { cn } from "../utils/utils";
 import BookmarkIcon from "./BookmarkIcon";
-
-type JobItem = {
-  badgeLetters: string;
-  title: string;
-  company: string;
-  date: string;
-  relevanceScore: number;
-  daysAgo: number;
-}
 
 type JobListItemProps = {
   jobItem: JobItem
 }
 
 export default function JobListItem({jobItem}: JobListItemProps) {
+  const { currentJobHash, activeId } = useJobStore()
+  const selectedJobHighlight = activeId === jobItem.id ?  'job-item--active': ""
+  
   return (
-    <li className="job-item">
-      <a className="job-item__link">
+    <li className={cn("job-item", selectedJobHighlight)}>
+      <a className="job-item__link" href={`#${jobItem.id}`} onClick={() => currentJobHash(jobItem.id)}>
         <div className="job-item__badge">{jobItem.badgeLetters}</div>
 
         <div className="job-item__middle">
